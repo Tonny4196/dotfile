@@ -1,0 +1,38 @@
+{
+  "Profiles": [
+    {
+      "Name": "Default",
+      "Guid": "dotfiles-default-profile",
+      "Normal Font": "MesloLGS-NF-Regular 12",
+      "Use Non-ASCII Font": false,
+      "Transparency": 0.15,
+      "Blur": true,
+      "Blur Radius": 20.0,
+      "Window Type": 0,
+      "Hide After Opening": false,
+      "Background Color": {
+        "Red Component": 0.0,
+        "Green Component": 0.0,
+        "Blue Component": 0.0,
+        "Alpha Component": 1.0,
+        "Color Space": "sRGB"
+      },
+      "Tab Color": {
+        "Red Component": 0.36,
+        "Green Component": 0.43,
+        "Blue Component": 0.455,
+        "Alpha Component": 1.0,
+        "Color Space": "sRGB"
+      },
+      "Show Tab Bar": true,
+      "Tab Style": 0,
+      "Use Tab Color": true,
+      "Use IME": true,
+      "Option Key Sends": 0,
+      "Right Option Key Sends": 0,
+      "Columns": 220,
+      "Rows": 50,
+      "Initial Use Transparency": true
+    }
+  ]
+}
