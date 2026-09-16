@@ -1,0 +1,55 @@
+# ~/.config/ghostty/config
+# iTerm2 の "Default" プロファイルからの移植
+# 元設定: ~/Library/Preferences/com.googlecode.iterm2.plist
+
+# --- フォント ---
+font-family = "MesloLGM Nerd Font Mono"
+font-size = 12
+font-thicken = true
+bold-is-bright = true
+
+# --- 配色（ライト/ダークで自動切替） ---
+theme = light:iterm-light,dark:iterm-dark
+
+# --- カーソル ---
+cursor-style-blink = false
+cursor-opacity = 0.4
+cursor-color = ffffff
+cursor-style = block
+
+# --- ウィンドウ ---
+window-width = 80
+window-height = 25
+background-opacity = 1.0
+background-blur-radius = 0
+confirm-close-surface = false
+
+# --- キー入力 ---
+macos-option-as-alt = false
+
+# ペイン分割は使わない前提。cmd+option+矢印はHerdr側の移動に譲る
+#   cmd+opt+up/down    -> Herdr: workspace移動
+#   cmd+opt+left/right -> Herdr: tab移動（Ghosttyの goto_split を外す）
+keybind = super+alt+arrow_up=unbind
+keybind = super+alt+arrow_down=unbind
+keybind = super+alt+arrow_left=unbind
+keybind = super+alt+arrow_right=unbind
+
+# タブ管理はHerdrに一本化する。
+#   cmd+t       -> Herdr: 新規workspace
+#   cmd+shift+t -> Herdr: 新規tab
+# Ghostty側の new_tab / undo を外して端末へ素通しさせる
+keybind = super+t=unbind
+keybind = super+shift+t=unbind
+
+# --- スクロールバック ---
+# iTerm は 1000 行固定（無制限オフ）。Ghostty はバイト単位指定のため簡易換算。
+scrollback-limit = 100000
+
+# --- 背景画像 ---
+# 相対パスは config ファイルのあるディレクトリ基準で解決される
+background-image = ghostty_image.jpeg
+background-image-opacity = 0.3
+background-image-position = center
+background-image-fit = contain
+background-image-repeat = false

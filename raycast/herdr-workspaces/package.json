@@ -1,0 +1,77 @@
+{
+  "$schema": "https://www.raycast.com/schemas/extension.json",
+  "name": "herdr-workspaces",
+  "title": "Herdr Workspaces",
+  "description": "Search Herdr workspaces and switch to them in Ghostty",
+  "icon": "extension-icon.png",
+  "author": "tomohiro",
+  "categories": [
+    "Developer Tools"
+  ],
+  "license": "MIT",
+  "platforms": [
+    "macOS"
+  ],
+  "commands": [
+    {
+      "name": "herdr-workspaces",
+      "title": "Herdr Workspaces",
+      "description": "Search Herdr workspaces and focus one in Ghostty",
+      "mode": "view"
+    }
+  ],
+  "preferences": [
+    {
+      "name": "herdrPath",
+      "title": "Herdr Path",
+      "description": "Absolute path to the herdr binary. Leave empty to auto-detect.",
+      "type": "textfield",
+      "required": false,
+      "placeholder": "/opt/homebrew/bin/herdr"
+    },
+    {
+      "name": "windowPlacement",
+      "title": "New Window Placement",
+      "description": "Where to put a Ghostty window opened by this extension (when no herdr window is visible).",
+      "type": "dropdown",
+      "required": false,
+      "default": "left",
+      "data": [
+        {
+          "title": "Left Half",
+          "value": "left"
+        },
+        {
+          "title": "Right Half",
+          "value": "right"
+        },
+        {
+          "title": "Fill Screen",
+          "value": "full"
+        },
+        {
+          "title": "Ghostty Default",
+          "value": "default"
+        }
+      ]
+    }
+  ],
+  "dependencies": {
+    "@raycast/api": "^2.4.1",
+    "@raycast/utils": "^2.3.1"
+  },
+  "devDependencies": {
+    "@raycast/eslint-config": "^2.2.0",
+    "@types/node": "22.19.17",
+    "@types/react": "19.0.10",
+    "eslint": "^10.10.0",
+    "prettier": "^3.9.6",
+    "typescript": "^5.9.3"
+  },
+  "scripts": {
+    "build": "ray build",
+    "dev": "ray develop",
+    "fix-lint": "ray lint --fix",
+    "lint": "ray lint"
+  }
+}
