@@ -48,17 +48,25 @@ if command -v herdr >/dev/null 2>&1 && herdr status server >/dev/null 2>&1; then
 fi
 
 # Raycast 拡張 (herdr-workspaces)
-# ray build -e dev の出力先が ~/.config/raycast/extensions/herdr-workspaces/ で、
-# これが Raycast への登録実体になる。ソースは絶対にそこへ置かないこと。
+# `ray build` はビルドするだけで Raycast への登録は行わない。登録は
+# `ray develop` がビルド後に Raycast 本体と通信して行うため、常駐する
+# ウォッチャとして起動しっぱなしにする必要がある(終了すると登録も外れる)。
 echo ""
-echo "Building Raycast extension (herdr-workspaces)..."
+echo "Starting Raycast extension watcher (herdr-workspaces)..."
 if [ -d /Applications/Raycast.app ]; then
   (
     cd "$DOTFILES_DIR/raycast/herdr-workspaces"
     npm ci
-    npx ray build -e dev -I
+    pidfile=".ray-develop.pid"
+    if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
+      echo "  watcher already running (pid $(cat "$pidfile"))"
+    else
+      nohup npx ray develop >.ray-develop.log 2>&1 &
+      echo $! >"$pidfile"
+      disown
+      echo "  watcher started (pid $!, log: raycast/herdr-workspaces/.ray-develop.log)"
+    fi
   )
-  echo "  -> ~/.config/raycast/extensions/herdr-workspaces"
 else
   echo "  WARNING: Raycast.app not found, skipping."
 fi
