@@ -10,8 +10,7 @@ dotfile/
 ├── install.sh
 ├── ghostty/
 │   ├── config            # Ghostty config
-│   ├── ghostty_image.jpeg
-│   └── themes/           # iterm-light / iterm-dark
+│   └── ghostty_image.jpeg
 ├── herdr/
 │   └── config.toml       # Herdr config (keybindings, theme)
 ├── raycast/
@@ -35,7 +34,12 @@ bash install.sh
 
 ## Ghostty
 
-`config` / `ghostty_image.jpeg` / `themes` を `~/.config/ghostty/` へリンクする。
+`config` と `ghostty_image.jpeg` を `~/.config/ghostty/` へリンクする。
+
+配色は Ghostty 同梱の `TokyoNight`（ダーク固定）で、Herdr 側の
+`theme = "tokyo-night"` と揃えてある。片方だけ変えると Ghostty のペイン内と
+Herdr のサイドバーで色味が分かれるので注意。同梱テーマなのでリポジトリに
+テーマファイルを持つ必要はなく、`themes/` は置いていない。
 
 `background-image` は相対パス。Ghostty は config ファイルのあるディレクトリを
 基準に解決するため、画像を config と同じ階層に置いておけばマシンを問わず動く。

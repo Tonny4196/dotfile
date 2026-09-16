@@ -1,6 +1,4 @@
 # ~/.config/ghostty/config
-# iTerm2 の "Default" プロファイルからの移植
-# 元設定: ~/Library/Preferences/com.googlecode.iterm2.plist
 
 # --- フォント ---
 font-family = "MesloLGM Nerd Font Mono"
@@ -8,13 +6,15 @@ font-size = 12
 font-thicken = true
 bold-is-bright = true
 
-# --- 配色（ライト/ダークで自動切替） ---
-theme = light:iterm-light,dark:iterm-dark
+# --- 配色 ---
+# Ghostty 同梱テーマ。Herdr 側の theme = "tokyo-night" と揃えている。
+# ダーク固定なので light/dark の自動切替はしない。
+theme = TokyoNight
 
 # --- カーソル ---
+# 色はテーマのものを使う
 cursor-style-blink = false
 cursor-opacity = 0.4
-cursor-color = ffffff
 cursor-style = block
 
 # --- ウィンドウ ---

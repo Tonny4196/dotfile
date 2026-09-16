@@ -1,7 +1,8 @@
 onboarding = false
 
 [theme]
-name = "catppuccin"
+# Ghostty 側の theme = TokyoNight と揃えている
+name = "tokyo-night"
 auto_switch = false
 
 [keys]

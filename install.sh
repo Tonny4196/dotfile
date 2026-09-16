@@ -36,7 +36,6 @@ echo ""
 echo "Setting up Ghostty config..."
 link "$DOTFILES_DIR/ghostty/config" ~/.config/ghostty/config
 link "$DOTFILES_DIR/ghostty/ghostty_image.jpeg" ~/.config/ghostty/ghostty_image.jpeg
-link "$DOTFILES_DIR/ghostty/themes" ~/.config/ghostty/themes
 
 # Herdr
 # config.toml だけをリンクする。~/.config/herdr/ には herdr.sock / *.log /
