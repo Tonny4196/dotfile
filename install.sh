@@ -48,24 +48,34 @@ if command -v herdr >/dev/null 2>&1 && herdr status server >/dev/null 2>&1; then
 fi
 
 # Raycast 拡張 (herdr-workspaces)
-# `ray build` はビルドするだけで Raycast への登録は行わない。登録は
-# `ray develop` がビルド後に Raycast 本体と通信して行うため、常駐する
-# ウォッチャとして起動しっぱなしにする必要がある(終了すると登録も外れる)。
+# `ray build` はローカルビルドのみで Raycast への登録は行わない。登録は
+# `ray develop` がビルド成功時に投げる raycast://cli/<ext>/build-success
+# ディープリンクで行われるため、develop をバックグラウンドで起動し、ログに
+# "built extension successfully" (= ディープリンクを投げた直後) が出たら
+# kill する。登録済みなので develop を常駐させ続ける必要はない。
 echo ""
-echo "Starting Raycast extension watcher (herdr-workspaces)..."
+echo "Registering Raycast extension (herdr-workspaces) via ray develop..."
 if [ -d /Applications/Raycast.app ]; then
   (
     cd "$DOTFILES_DIR/raycast/herdr-workspaces"
     npm ci
-    pidfile=".ray-develop.pid"
-    if [ -f "$pidfile" ] && kill -0 "$(cat "$pidfile")" 2>/dev/null; then
-      echo "  watcher already running (pid $(cat "$pidfile"))"
+    logfile="$(mktemp)"
+    npx ray develop >"$logfile" 2>&1 &
+    pid=$!
+    for _ in $(seq 1 90); do
+      grep -qi "built extension successfully" "$logfile" && break
+      kill -0 "$pid" 2>/dev/null || break
+      sleep 1
+    done
+    kill "$pid" 2>/dev/null || true
+    wait "$pid" 2>/dev/null || true
+    if grep -qi "built extension successfully" "$logfile"; then
+      echo "  registered with Raycast"
     else
-      nohup npx ray develop >.ray-develop.log 2>&1 &
-      echo $! >"$pidfile"
-      disown
-      echo "  watcher started (pid $!, log: raycast/herdr-workspaces/.ray-develop.log)"
+      echo "  WARNING: build-success signal not seen within timeout, see log below"
+      cat "$logfile"
     fi
+    rm -f "$logfile"
   )
 else
   echo "  WARNING: Raycast.app not found, skipping."
