@@ -1,0 +1,27 @@
+onboarding = false
+
+[theme]
+# Ghostty 側の theme = TokyoNight と揃えている
+name = "tokyo-night"
+auto_switch = false
+
+[keys]
+# Prefix key (default: ctrl+b). Ghostty forwards cmd+b via the kitty keyboard protocol.
+prefix = "cmd+b"
+previous_workspace = "cmd+alt+up"
+next_workspace = "cmd+alt+down"
+previous_tab = "cmd+alt+left"
+next_tab = "cmd+alt+right"
+
+# 直接ショートカット（prefix不要）。Ghostty側で super+t / super+shift+t を unbind 済み。
+new_workspace = "cmd+t"
+new_tab = "cmd+shift+t"
+
+[ui]
+status_indicators = "symbols"
+
+[ui.sound]
+enabled = true
+
+[ui.toast]
+delivery = "system"
