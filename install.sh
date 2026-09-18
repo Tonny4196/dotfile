@@ -48,17 +48,35 @@ if command -v herdr >/dev/null 2>&1 && herdr status server >/dev/null 2>&1; then
 fi
 
 # Raycast 拡張 (herdr-workspaces)
-# ray build -e dev の出力先が ~/.config/raycast/extensions/herdr-workspaces/ で、
-# これが Raycast への登録実体になる。ソースは絶対にそこへ置かないこと。
+# `ray build` はローカルビルドのみで Raycast への登録は行わない。登録は
+# `ray develop` がビルド成功時に投げる raycast://cli/<ext>/build-success
+# ディープリンクで行われるため、develop をバックグラウンドで起動し、ログに
+# "built extension successfully" (= ディープリンクを投げた直後) が出たら
+# kill する。登録済みなので develop を常駐させ続ける必要はない。
 echo ""
-echo "Building Raycast extension (herdr-workspaces)..."
+echo "Registering Raycast extension (herdr-workspaces) via ray develop..."
 if [ -d /Applications/Raycast.app ]; then
   (
     cd "$DOTFILES_DIR/raycast/herdr-workspaces"
     npm ci
-    npx ray build -e dev -I
+    logfile="$(mktemp)"
+    npx ray develop >"$logfile" 2>&1 &
+    pid=$!
+    for _ in $(seq 1 90); do
+      grep -qi "built extension successfully" "$logfile" && break
+      kill -0 "$pid" 2>/dev/null || break
+      sleep 1
+    done
+    kill "$pid" 2>/dev/null || true
+    wait "$pid" 2>/dev/null || true
+    if grep -qi "built extension successfully" "$logfile"; then
+      echo "  registered with Raycast"
+    else
+      echo "  WARNING: build-success signal not seen within timeout, see log below"
+      cat "$logfile"
+    fi
+    rm -f "$logfile"
   )
-  echo "  -> ~/.config/raycast/extensions/herdr-workspaces"
 else
   echo "  WARNING: Raycast.app not found, skipping."
 fi
