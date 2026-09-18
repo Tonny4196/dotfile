@@ -9,7 +9,13 @@ const GHOSTTY_EXECUTABLE = "/Ghostty.app/Contents/MacOS/ghostty";
 
 // An app launched through AppleScript inherits the caller's environment. If HERDR_* variables leak into Ghostty,
 // every shell in it looks like a herdr pane and `herdr` refuses to start ("nested herdr is disabled"), so drop them.
-const cleanEnv = Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith("HERDR_")));
+// Raycast's LC_ALL is a BCP 47 locale tag that POSIX tools interpret as the C locale. Remove it and force UTF-8
+// character handling so tools such as pbcopy preserve non-ASCII text copied through Herdr.
+const cleanEnv = {
+  ...Object.fromEntries(Object.entries(process.env).filter(([key]) => !key.startsWith("HERDR_") && key !== "LC_ALL")),
+  LANG: "en_US.UTF-8",
+  LC_CTYPE: "UTF-8",
+};
 
 async function runOsascript(osaArgs: string[], timeout: number): Promise<string> {
   const { stdout } = await execFileAsync("/usr/bin/osascript", osaArgs, { env: cleanEnv, timeout });
