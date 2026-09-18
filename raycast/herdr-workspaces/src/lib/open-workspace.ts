@@ -28,7 +28,8 @@ function shellQuote(value: string): string {
 
 // Opens a new Ghostty window whose shell runs `herdr` (attaching to the server, or starting it if needed).
 async function openHerdrWindow(): Promise<void> {
-  await openGhosttyWindow(shellQuote(await resolveHerdrPath()));
+  const herdr = shellQuote(await resolveHerdrPath());
+  await openGhosttyWindow(`/usr/bin/env -u LC_ALL LANG=en_US.UTF-8 LC_CTYPE=UTF-8 ${herdr}`);
 
   const { windowPlacement = "left" } = getPreferenceValues<{ windowPlacement?: WindowPlacement | "default" }>();
   if (windowPlacement === "default") return;

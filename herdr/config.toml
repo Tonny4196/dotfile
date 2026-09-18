@@ -20,6 +20,19 @@ new_tab = "cmd+shift+t"
 [ui]
 status_indicators = "symbols"
 
+# Agents 一覧: 1行目に作業名（エージェントが設定するターミナルタイトル）、2行目にワークスペース/タブ/種別。
+# Claude Code はセッション名、Codex は「タスク名 | ディレクトリ」をタイトルに出す。
+[ui.sidebar.agents]
+# デフォルトだと dim 表示で読みにくいので、TokyoNight の前景色で明示的に色を付ける。
+rows = [
+  ["state_icon", { token = "terminal_title_stripped", fg = "#c0caf5", bold = true, dim = false }],
+  [
+    { token = "workspace", fg = "#7aa2f7", dim = false },
+    { token = "tab", fg = "#a9b1d6", dim = false },
+    { token = "agent", fg = "#737aa2", dim = false },
+  ],
+]
+
 [ui.sound]
 enabled = true
 
