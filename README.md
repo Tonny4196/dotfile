@@ -74,9 +74,14 @@ Herdr のショートカットが無言で死ぬ。**
 
 ## Raycast
 
-拡張のソースは `raycast/herdr-workspaces/`。`install.sh` が `npm ci` と
-`ray build -e dev` を実行し、Raycast の登録実体である
-`~/.config/raycast/extensions/herdr-workspaces/` を生成する。
+拡張のソースは `raycast/herdr-workspaces/`。
+
+`ray build` はローカルビルドのみで Raycast への登録は行わない。登録は
+`ray develop` がビルド成功時に投げる `raycast://cli/<ext>/build-success`
+ディープリンクによって行われるため、`install.sh` は `npm ci` の後に
+`ray develop` をバックグラウンドで起動し、ログに "built extension
+successfully"(= ディープリンクを投げた直後)が出た時点で kill している。
+一度登録されれば develop プロセスを常駐させ続ける必要はない。
 
 **ソースを `~/.config/raycast/extensions/` の下に置かないこと。** あそこは
 Raycast 自身のビルド出力先で、ソースを置くと `ray develop` がそこへ書き戻して
